@@ -4,12 +4,25 @@ import 'contact.dart';
 import 'home.dart';
 import 'second_screen.dart';
 
-class FirstScreen extends StatelessWidget {
+class FirstScreen extends StatefulWidget {
   static String id = "/first";
   const FirstScreen({Key? key}) : super(key: key);
 
   @override
+  State<FirstScreen> createState() => _FirstScreenState();
+}
+
+class _FirstScreenState extends State<FirstScreen> {
+  int _index = 0;
+  List pages =[
+    HomeScreen(),
+    SecondScreen(),
+    Contact(),
+  ];
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -52,29 +65,26 @@ class FirstScreen extends StatelessWidget {
           ],
         ),
       ),
-      appBar: AppBar(
-        title: Text("First Screen"),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index){
+          print(index);
+          setState(() {
+            _index = index;
+          });
+        },
+        currentIndex:  _index,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home),label: "Home"),
+          //BottomNavigationBarItem(icon: Icon(Icons.assignment),label: "First"),
+          BottomNavigationBarItem(icon: Icon(Icons.today),label: "Second"),
+          BottomNavigationBarItem(icon: Icon(Icons.call),label: "Contact"),
+          //BottomNavigationBarItem(icon: Icon(Icons.call),label: "StatefulScreen"),
+        ],
       ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text("Go to Second Screen"),
-          onPressed: () async {
-            bool status = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SecondScreen()));
-            print(status);
-            //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
-            //Navigator.pushNamed(context, "/contact");
-            //Navigator.pushReplacementNamed(context, '/contact');
-            //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SecondScreen(name:"Elon Mask")));
-            //Navigator.pushNamed(context, Contact.id);
-            //Navigator.pushNamed(context, SecondScreen.id);
-            // Navigator.pushNamed(context, SecondScreen.id,arguments: {
-            //   'name':'Mark Zakerberg',
-            //   'Founder':'Facebook Company'
-            // });
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text("First Screen"),
+      // ),
+      body: pages[_index],
     );
   }
 }
