@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Contact extends StatefulWidget {
+  static String id = "contact";
   const Contact({Key? key}) : super(key: key); //1.Create constructor
 
   @override
